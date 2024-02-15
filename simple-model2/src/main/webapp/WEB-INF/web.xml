@@ -1,12 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://jakarta.ee/xml/ns/jakartaee" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd" id="WebApp_ID" version="5.0">
-  <display-name>simple-model2</display-name>
-  <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
-    <welcome-file>index.jsp</welcome-file>
-    <welcome-file>index.htm</welcome-file>
-    <welcome-file>default.html</welcome-file>
-    <welcome-file>default.jsp</welcome-file>
-    <welcome-file>default.htm</welcome-file>
-  </welcome-file-list>
+	<!-- 
+		FrontControllerServlet 배포하기
+			1. 요청 URL의 패턴을 지정한다.
+				main.do, login.do, logout.do, list.do 형식의
+				요청 URL을 접수받으면 FrontControllerServlet이 실행된다.
+			2. 컨트롤러 클래스가 정의된 패키지를 지정한다.
+				<init-param> -> 서블릿 초기화 파라미터, ServletConfig 객체에 저장된다.
+	 				<param-name>base-package</param-name>
+	 				<param-value>패키지경로</param-value>
+	 			</init-param>
+	 		3. jsp파일을 숨긴 폴더를 지정한다.
+	 			<init-param>
+	 				<param-name>jsp-directory</param-name>
+	 				<param-value>폴더경로</param-value>
+	 			</init-param>
+	 		* base-package, jsp-directory는 model2 라이브러리에서 지정한 이름
+	 		4. 웹서버 시작시 서블릿 객체가 생성되고 초기화 작업이 완료되게 하기
+	 			<load-on-startup>숫자</load-on-startup>
+	 			* 이 작업을 하기 않으면 첫 요청이 왔을때 객체가 생성되고 초기화 작업이 시작된다. -> 시간이 오래걸림
+	 			* 숫자가 작을수록 먼저 초기화된다.(우선순위)
+	 -->
+	 
+	 <servlet>
+	 	<servlet-name>frontControllerServlet</servlet-name>
+	 	<servlet-class>kr.co.jhta.model2.FrontControllerServlet</servlet-class>
+	 	<init-param>
+	 		<param-name>base-package</param-name>
+	 		<param-value>controllers</param-value>
+	 	</init-param>
+	 	<init-param>
+	 		<param-name>jsp-directory</param-name>
+	 		<param-value>/WEB-INF/views/</param-value>
+	 	</init-param>
+	 	<load-on-startup>1</load-on-startup>
+	 </servlet>
+	 <servlet-mapping>
+	 	<servlet-name>frontControllerServlet</servlet-name>
+	 	<url-pattern>*.do</url-pattern>
+	 </servlet-mapping> 
 </web-app>
