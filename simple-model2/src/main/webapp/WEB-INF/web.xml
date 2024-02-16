@@ -39,4 +39,12 @@
 	 	<servlet-name>frontControllerServlet</servlet-name>
 	 	<url-pattern>*.do</url-pattern>
 	 </servlet-mapping> 
+	 
+	 <jsp-config>
+	 	<jsp-property-group>
+	 		<url-pattern>*.jsp</url-pattern>
+	 		<include-prelude>/WEB-INF/views/common/tag.jsp</include-prelude>
+	 	</jsp-property-group>
+	 </jsp-config>
+	 
 </web-app>

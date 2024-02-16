@@ -2,6 +2,7 @@ package controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import kr.co.jhta.model2.annotation.Controller;
 import kr.co.jhta.model2.annotation.RequestMapping;
 import kr.co.jhta.model2.constant.HttpMethod;
@@ -22,6 +23,46 @@ public class HomeController {
 		// home.jsp로 내부이동
 		return "home.jsp";
 	}
+	
+	@RequestMapping(path = "/login.do", method = HttpMethod.GET)
+	public String loginform(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+		return "loginform.jsp";
+	}
+	
+	@RequestMapping(path = "/login.do", method = HttpMethod.POST)
+	public String login(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+		String id = req.getParameter("id");
+		String password = req.getParameter("password");
+		
+		try {
+			User user = userService.login(id, password);
+			// getSession()는 getSession(true)와 같다. 
+			// 요청메세지에 세션아이디가 없으면, 세션객체를 새로 생성해서 반환한다.
+			// 요청메세지에 세션아이디가 있지만 세션아이디에 해당하는 세션객체가 타임아웃 경과로 이미 파괴되었다면 세션객체를 새로 생성해서 반환한다.
+			// 요청메세지에 세션아이디가 있고, 세션아이디에 해당하는 세션객체가 발견되면 그 세션객체를 반환한다.
+			HttpSession session = req.getSession();
+			session.setAttribute("LOGIN_USER", user);
+			
+			return "redirect:home.do";
+		} catch (Exception ex) {
+			return "redirect:login.do?error=fail";
+		}
+	}
+	
+	@RequestMapping(path = "/logout.do")
+	public String logout(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+		// getSession(false)
+		// 요청메세지에 세션아이디가 없으면, null을 반환한다.
+		// 요청메세지에 세션아이디가 있지만 세션아이디에 해당하는 세션객체가 타임아웃 경과로 이미 파괴되었다면 null을 반환한다.
+		// 요청메세지에 세션아이디가 있고, 세션아이디에 해당하는 세션객체가 발견되면 그 세션객체를 반환한다.
+		HttpSession session = req.getSession(false);
+		if (session != null) {
+			// invalidate() : 세션을 무효화 시키는 메소드
+			session.invalidate();
+		}
+		
+		return "redirect:home.do";
+	}	
 	
 	// 회원가입 버튼 클릭 -> GET 방식, register.do를 요청
 	@RequestMapping(path = "/register.do", method = HttpMethod.GET)

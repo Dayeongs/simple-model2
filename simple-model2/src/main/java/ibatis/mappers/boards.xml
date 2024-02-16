@@ -11,6 +11,7 @@
 			B.board_no 				as no,
 			B.board_title 			as title,
 			B.board_content 		as content,
+			B.board_read_count		as readCount,
 			B.board_created_date 	as createdDate,
 			U.user_id 				as "user.id",
 			U.user_name 			as "user.name"

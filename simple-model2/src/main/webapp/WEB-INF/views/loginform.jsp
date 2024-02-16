@@ -11,16 +11,27 @@
 <title>모델2</title>
 </head>
 <body>
-<%-- scope를 지정하지 않으면 무조건 pageContext에 담긴다. --%>
-<c:set var="menu" value="홈" />
-<%-- include:jsp에 비해서 실행속도가 빠르다. --%>
+<c:set var="menu" value="로그인" />
 <%@ include file="common/navbar.jsp" %>
 <div class="container">
 	<div class="row mb-3">
-		<div class="col-12">
-			<h1>홈</h1>
-
-
+		<div class="col-4">
+			<h1>로그인</h1>
+			
+			<form class="border bg-light p-3" method="post" action="login.do">
+				<div class="form-group mb-3">
+					<label class="form-label">아이디</label>
+					<input type="text" class="form-control" name="id" value="hong" />
+				</div>
+				<div class="form-group mb-3">
+					<label class="form-label">비밀번호</label>
+					<input type="password" class="form-control" name="password" value="zxcv1234" />
+				</div>
+				<div class="text-end">
+					<a href="register.do" class="btn btn-secondary">회원가입</a>
+					<button type="submit" class="btn btn-primary">로그인</button>
+				</div>
+			</form>
 		</div>
 	</div>
 </div>

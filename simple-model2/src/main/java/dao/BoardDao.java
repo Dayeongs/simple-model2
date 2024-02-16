@@ -12,6 +12,7 @@ public class BoardDao {
 	
 	private final SqlMapClient ibatis = IbatisUtil.getSqlMapClient();
 	
+	@SuppressWarnings("unchecked")
 	public List<Board> getAllBoards() throws SQLException {
 		return (List<Board>) ibatis.queryForList("boards.getAllBoards");
 	}
